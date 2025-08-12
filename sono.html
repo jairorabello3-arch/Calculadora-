@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Sono</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #121212;
+        color: white;
+        text-align: center;
+        padding: 20px;
+    }
+    h1 {
+        color: #bb86fc;
+    }
+    input, button {
+        padding: 10px;
+        margin: 10px;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+    input {
+        background-color: #1f1f1f;
+        color: white;
+    }
+    button {
+        background-color: #bb86fc;
+        color: white;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #9b66e4;
+    }
+    .result {
+        margin-top: 20px;
+        font-size: 1.2rem;
+        color: #03dac6;
+    }
+</style>
+</head>
+<body>
+    <h1>Calculadora de Sono</h1>
+    <p>Informe a hora que vai dormir:</p>
+    <input type="time" id="sleepTime">
+    <br>
+    <button onclick="calcular()">Calcular</button>
+    <div class="result" id="resultados"></div>
+
+<script>
+function calcular() {
+    let sleepTime = document.getElementById("sleepTime").value;
+    if (!sleepTime) {
+        document.getElementById("resultados").innerHTML = "Por favor, insira a hora!";
+        return;
+    }
+
+    let [hora, minuto] = sleepTime.split(":").map(Number);
+    let horarios = [];
+    let minutosTotais = hora * 60 + minuto + 15; // 15 min pra pegar no sono
+
+    for (let ciclos = 4; ciclos <= 6; ciclos++) {
+        let acordar = minutosTotais + ciclos * 90;
+        let h = Math.floor(acordar / 60) % 24;
+        let m = acordar % 60;
+        horarios.push(`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`);
+    }
+
+    document.getElementById("resultados").innerHTML =
+        `Acorde em: <br>${horarios.join(" | ")}`;
+}
+</script>
+</body>
+</html>
